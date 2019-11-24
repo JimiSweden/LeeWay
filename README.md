@@ -3,30 +3,38 @@ Made to ensure Your code behaves as You intended.
 <br/>
 With easy to use unit test configurations.
 
-*C# Web API Controller Authorization Attributes xUnit unit test*
+<sub>C# Web API Controller Authorization Attributes xUnit unit test integration test
+#DefensiveCoding #TDD</sub>
+
 
 ## LeeWay.Ensure.ControllerAttributes
-Use it to Ensure Controllers and Controller Actions has correct Attributes
+> *Do you have a nice visual overview of the Authorization levels in your API and Controllers?* <br/>
+*Do you have unit / integration tests covering your Authorize attributes and Policies?*
+
+Use this package to Ensure Controllers and Controller Actions has correct Attributes
 Currently supported attributes are AllowAnonymousAttribute and AuthorizeAttribute (with or without policy)
 
-    note: this is not yet added as a nuget package but will be
+### Nuget
+*This is not yet added as a nuget package but will be*
 
 ### Supported plattforms
-**LeeWay.Ensure.ControllerAttributes targets .NET Standard 2.0**
-and hence supports the following plattforms **(including later versions such as .NET Core 3)**
+LeeWay.Ensure.ControllerAttributes targets .NET Standard 2.0
+and hence supports the following plattforms*
+
 - .NET Core 2.0
 - .NET Framework 4.6.1
 *https://github.com/dotnet/standard/blob/master/docs/versions/netstandard2.0.md#platform-support*
 
+> *including later versions such as .NET Core 3
 
-    *the demo project "WebApi" and its test project targets netcoreapp3.0*
+> *the demo project "WebApi" and its test project targets netcoreapp3.0*
 
 
 ### Example of how to configure the validation for Authorize attributes
-Note that the below code is found in the demo project "WebApi.ConfigurationTests" 
 
-- The project "WebApi" is the "production assembly" under test.
-- WebApi.Controllers are configured with different attributes etc to support the example configuration below
+> Note that the below code is found in the demo project "WebApi.ConfigurationTests" 
+> * The project "WebApi" is the "production assembly" under test.
+> * WebApi.Controllers are configured with different attributes etc to support the example configuration below
 
 ```csharp
 //add project dependency to LeeWay.Ensure.ControllerAttributes;
