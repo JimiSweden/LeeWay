@@ -15,7 +15,9 @@ Use this package to Ensure Controllers and Controller Actions has correct Attrib
 Currently supported attributes are AllowAnonymousAttribute and AuthorizeAttribute (with or without policy)
 
 ### Nuget
-*This is not yet added as a nuget package but will be*
+
+> PM> Install-Package LeeWay.Ensure.ControllerAttributes
+
 
 ### Supported plattforms
 LeeWay.Ensure.ControllerAttributes targets .NET Standard 2.0
@@ -37,7 +39,7 @@ and hence supports the following plattforms*
 > * WebApi.Controllers are configured with different attributes etc to support the example configuration below
 
 ```csharp
-//add project dependency to LeeWay.Ensure.ControllerAttributes;
+//install nuget package LeeWay.Ensure.ControllerAttributes; or download and add project dependency to LeeWay.Ensure.ControllerAttributes;
 
  public class WebApi_Ensure
     {
