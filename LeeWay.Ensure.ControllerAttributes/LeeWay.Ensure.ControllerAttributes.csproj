@@ -1,21 +1,43 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    
     <TargetFramework>netstandard2.0</TargetFramework>
+    <IsPackable>true</IsPackable>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <Copyright>Jimi (Lee) Friis</Copyright>
-    <Description>Made to ensure Your code behaves as You intended. 
-With easy to use unit test configurations.
-Use it to Ensure Controllers and Controller Actions has correct Attributes</Description>
+    <Authors>Jimi Friis</Authors>
+    <PackageId>LeeWay.Ensure.ControllerAttributes</PackageId>
+    <Version>1.0.0</Version>
+    <Description>
+      Use it to Ensure Controllers and Controller Actions has correct Attributes
+      - Authorize and AllowAnonymous are the currently supported attributes
+      Made to ensure Your code behaves as You intended.
+      With easy to use unit test configurations.
+    </Description>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <PackageTags>Authorize Validate Authorization Ensure TDD ControllerAuthorization Web API</PackageTags>
+    <PackageReleaseNotes>
+      First published version
+      - Authorize and AllowAnonymous are the currently supported attributes
+    </PackageReleaseNotes>
+    <PackageProjectUrl>https://github.com/JimiSweden/LeeWay</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/JimiSweden/LeeWay.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+
+
   </PropertyGroup>
 
   <ItemGroup>
     <None Include="..\README.md" Link="README.md">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
     </None>
     <None Include="LICENSE">
       <Pack>True</Pack>
-      <PackagePath></PackagePath>
+      <PackagePath>\</PackagePath>
     </None>
   </ItemGroup>
 
