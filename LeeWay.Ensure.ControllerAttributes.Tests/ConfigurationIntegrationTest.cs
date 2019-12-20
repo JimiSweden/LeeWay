@@ -79,7 +79,7 @@ namespace LeeWay.Ensure.ControllerAttributes.Tests
 
                 .AddControllerRule<UserController>(new AuthorizeAttribute(PolicyNames.RequireAuthorizedUser))
 
-
+                
                 .AddControllerRule<PublicController>(new AllowAnonymousAttribute())
                 .AddActionRule<PublicController>(
                     nameof(PublicController.Get),
@@ -96,6 +96,10 @@ namespace LeeWay.Ensure.ControllerAttributes.Tests
                 .AddActionRule<PublicController>(
                     nameof(PublicController.Delete),
                     new AuthorizeAttribute("DeletePolicy"))
+
+                //to ensure multiple controllers using the same name works
+                .AddControllerRule<Fakes.Controllers.Duplicate.PublicController>(new AuthorizeAttribute())
+
 
                 .Build();
 

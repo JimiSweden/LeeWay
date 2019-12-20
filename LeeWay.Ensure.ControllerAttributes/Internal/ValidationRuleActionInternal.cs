@@ -38,7 +38,10 @@ namespace LeeWay.Ensure.ControllerAttributes.Internal
         
         public Attribute AttributeRequired { get; set; }
 
-        public string ControllerName => Action.DeclaringType.Name;
+        /// <summary>
+        /// FullName required to match (if multiple controllers in assembly has the same name.)
+        /// </summary>
+        public string ControllerName => Action.DeclaringType.FullName;
 
         public MethodInfo Action { get; }
 

@@ -147,45 +147,50 @@ Product/Sub Brand : LeeWay Ensure
 
 ## Done 
 
+(done until 2019-12-20)
+- bugfix , multiple controllers using the same name in the assembly works now.
+- (cleanup) separate interface for user configured rules from the internal validation rule
 
-[x] update WebApi to dotnet core 3.0
-[x] refactor ValidatedResults (use constructor to populate with all results)
-[x] fix sorting of validated results , order by message (message starts with controller name and action name)
-[x] add assembly name to printed results and execute tests
-[x] sealed classes not intended for inheritence, and internal where not set already.
+
+(done until 2019-11-24)
+- [x] update WebApi to dotnet core 3.0
+- [x] refactor ValidatedResults (use constructor to populate with all results)
+- [x] fix sorting of validated results , order by message (message starts with controller name and action name)
+- [x] add assembly name to printed results and execute tests
+- [x] sealed classes not intended for inheritence, and internal where not set already.
 
 (done until 2019-11-23)
 
-[partly done] - fix summary and help texts
-[x]- add Readme in root.
-[x] Set a product name and name projects to reflect what they do, (see at top)
-- because the AuthorizeAttribute validation could be extended to include other attributes on controller the project is named ControllerAttributes to "allow" growth. perhaps a good desicion and perhaps not =)
+- [partly done] - fix summary and help texts
+- [x]- add Readme in root.
+- [x] Set a product name and name projects to reflect what they do, (see at top)
+- - because the AuthorizeAttribute validation could be extended to include other attributes on controller the project is named ControllerAttributes to "allow" growth. perhaps a good desicion and perhaps not =)
 
 
 (done until 2019-11-11)
-[x] - make sure there is a small test validating each of the required attributes, 
+- [x] - make sure there is a small test validating each of the required attributes, 
 	like if Anonymous on Class and a method is set with Authorize but is not configured for that.
 	note: do it in "ValidationRuleDefaultTest"
 
-[x] copy the "integration test" - ImplementationConfigurationForUserOfAuthorizationValidationModule
+- [x] copy the "integration test" - ImplementationConfigurationForUserOfAuthorizationValidationModule
 	into the test project (also copy all controllers/actions from WebApi to Fake/Controllers)
 	named "ConfigurationIntegrationTest"
 
-[x] fix messages in rules passing validation, should only be 
+- [x] fix messages in rules passing validation, should only be 
 	"pass : AccountController.GetWithSimpleRule(Int32 id) - attributes: [AllowAnonymous] "
 	
-[x]remove the old implementation and tests targeting that.
-[x] Defect - when required 'AllowAnonymous' 
+- [x]remove the old implementation and tests targeting that.
+- [x] Defect - when required 'AllowAnonymous' 
 	a rule with Authorize passes
-[x]	fix "ouput in result" - "AllowAnonymous" is not printed in actual attributes
-[x]  add new tests similar to the old ControllerActionsHaveValidAuthorization
+- [x]	fix "ouput in result" - "AllowAnonymous" is not printed in actual attributes
+- [x]  add new tests similar to the old ControllerActionsHaveValidAuthorization
 
-[x] add default authorization policy to use
-[x] add validation rules for controller levels
-[x] add validation rules for action levels
+- [x] add default authorization policy to use
+- [x] add validation rules for controller levels
+- [x] add validation rules for action levels
          
-[x] execute the validation
-[x] collect results for all rules
-[x] throw in xunit if at least one error exists, but first after collection
-[x] print all errors in output console
+- [x] execute the validation
+- [x] collect results for all rules
+- [x] throw in xunit if at least one error exists, but first after collection
+- [x] print all errors in output console
 	

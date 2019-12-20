@@ -12,7 +12,7 @@ using Xunit;
 
 namespace LeeWay.Ensure.ControllerAttributes.Tests
 {
-    public class ValidationRuleActionDefaultTest
+    public class ValidationRuleActionInternalTest
     {
         /*       
             //perhaps todo later? (ok for now): consolidate validation rules? pass in parameters (lots of boiler code right now for the Arrange)
@@ -58,6 +58,7 @@ namespace LeeWay.Ensure.ControllerAttributes.Tests
         [Fact]
         public void CustomAuthorizeAttributesFromAction_returns_attribute_from_action()
         {
+            //arrange
             var controllerInfo = new ControllerInfo(typeof(FakeControllers.Controller_with_no_attribute));
 
             var actionName = nameof(FakeControllers.Controller_with_no_attribute.Action_with_Policy_RequireAdmin);
@@ -65,8 +66,10 @@ namespace LeeWay.Ensure.ControllerAttributes.Tests
 
             var expectedAttribute = new AuthorizeAttribute(PolicyNames.RequireAuthorizedAdmin);
 
-            var rule = new ValidationRuleActionInternal(action, new AuthorizeAttribute()); 
-
+            //act
+            var rule = new ValidationRuleActionInternal(action, new AuthorizeAttribute());
+            
+            //assert
             var actualAttribute = rule.CustomAuthorizeAttributesFromAction().First();
             actualAttribute.Should().BeEquivalentTo(expectedAttribute);
         }
@@ -74,19 +77,38 @@ namespace LeeWay.Ensure.ControllerAttributes.Tests
         [Fact]
         public void CustomAuthorizeAttributesFromController_returns_attribute_from_controller()
         {
+            //arrange
             var controllerInfo = new ControllerInfo(typeof(FakeControllers.Controller_with_Policy_RequireAdmin));
 
             var actionName = nameof(FakeControllers.Controller_with_Policy_RequireAdmin.Action_with_Authorize_attribute);
             var action = controllerInfo.ActionFirstOrDefault(actionName);
 
             var expectedAttribute = new AuthorizeAttribute(PolicyNames.RequireAuthorizedAdmin);
-
+            
+            //act
             var rule = new ValidationRuleActionInternal(action, new AuthorizeAttribute());
 
+            //assert
             var actualAttribute = rule.CustomAuthorizeAttributesFromController().First();
             actualAttribute.Should().BeEquivalentTo(expectedAttribute);
         }
 
+        [Fact]
+        public void ControllerName_uses_Fully_qualified_name()
+        {
+            //arrange
+            var controllerInfo = new ControllerInfo(typeof(FakeControllers.Controller_with_no_attribute));
+            var actionName = nameof(FakeControllers.Controller_with_no_attribute.Action_with_no_attribute);
+            var action = controllerInfo.ActionFirstOrDefault(actionName);
+
+            //act
+            var rule = new ValidationRuleActionInternal(action, new AuthorizeAttribute());
+            
+            //assert
+            var expectedFullName = controllerInfo.Controller.FullName;
+            rule.ControllerName.Equals(expectedFullName).Should().BeTrue(" multiple controllers in assembly using the same name is supported; hence controller.FullName must be used");
+
+        }
 
         /*
          * a Controller rule will be applied on all actions,

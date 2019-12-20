@@ -34,9 +34,10 @@ namespace LeeWay.Ensure.ControllerAttributes.Internal.Rules
 
         public Attribute AttributeRequired { get; set; }
 
-        public string ControllerName => typeof(TController).Name;
+        public string ControllerName => typeof(TController).FullName; 
         public MethodInfo Action { get; set; }
         
+        //endast här
         public bool IsControllerLevel => this.GetType().Name.Contains("Controller");
     }
 }
