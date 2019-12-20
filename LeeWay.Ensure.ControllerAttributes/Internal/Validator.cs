@@ -19,7 +19,7 @@ namespace LeeWay.Ensure.ControllerAttributes.Internal
         /// <summary>
         /// Rules created by the user 
         /// </summary>
-        public List<IValidationRule> ValidationRulesConfigured { get; set; } = new List<IValidationRule>();
+        public List<IValidationRuleConfiguredByUser> ValidationRulesConfiguredByUser { get; set; } = new List<IValidationRuleConfiguredByUser>();
         
         /// <summary>
         /// only used as helper in error message, probably to be removed later
@@ -149,7 +149,7 @@ namespace LeeWay.Ensure.ControllerAttributes.Internal
         {
             //Init()
             
-            AuthorizationValidationRules = new ValidationRulesContainer(_actionsToValidate, ValidationRulesConfigured);
+            AuthorizationValidationRules = new ValidationRulesContainer(_actionsToValidate, ValidationRulesConfiguredByUser);
 
             AuthorizationValidationRules.PopulateDefaultRules(DefaultAuthorizeAttribute);
             AuthorizationValidationRules.MergeDefaultWithConfiguredRules();
@@ -188,7 +188,7 @@ namespace LeeWay.Ensure.ControllerAttributes.Internal
         private void And_configured_authorization_rules_exists()
         {
             //assert     
-            if (!ValidationRulesConfigured.Any())
+            if (!ValidationRulesConfiguredByUser.Any())
             {
                 throw new XunitException("There are no configured validation rules, did you forget to create rules?");
             }

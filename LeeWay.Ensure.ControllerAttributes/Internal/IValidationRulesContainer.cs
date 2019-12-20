@@ -9,7 +9,7 @@ namespace LeeWay.Ensure.ControllerAttributes.Internal
         /// <summary>
         /// All default and configured rules
         /// </summary>
-        List<IValidationRule> AllRules();
+        List<IValidationRuleInternal> AllRules();
 
         /// <summary>
         /// Default attribute (authorization type and policy), will be used as required on all actions;

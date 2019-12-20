@@ -48,8 +48,8 @@ namespace LeeWay.Ensure.ControllerAttributes.Tests
             //arrange
             var actionRule = Helper.ActionRule_withNoAttribute_Controller_hasAllowAnnonymous();
 
-            var ruleOne = new ValidationRuleActionDefault(actionRule.Action, actionRule.AttributeRequired);
-            var ruleTwo = new ValidationRuleActionDefault(actionRule.Action, actionRule.AttributeRequired);
+            var ruleOne = new ValidationRuleActionInternal(actionRule.Action, actionRule.AttributeRequired);
+            var ruleTwo = new ValidationRuleActionInternal(actionRule.Action, actionRule.AttributeRequired);
 
             //assert
             ruleOne.Equals(ruleTwo).Should().BeTrue(" we care about values and not identity");
@@ -65,7 +65,7 @@ namespace LeeWay.Ensure.ControllerAttributes.Tests
 
             var expectedAttribute = new AuthorizeAttribute(PolicyNames.RequireAuthorizedAdmin);
 
-            var rule = new ValidationRuleActionDefault(action, new AuthorizeAttribute()); 
+            var rule = new ValidationRuleActionInternal(action, new AuthorizeAttribute()); 
 
             var actualAttribute = rule.CustomAuthorizeAttributesFromAction().First();
             actualAttribute.Should().BeEquivalentTo(expectedAttribute);
@@ -81,7 +81,7 @@ namespace LeeWay.Ensure.ControllerAttributes.Tests
 
             var expectedAttribute = new AuthorizeAttribute(PolicyNames.RequireAuthorizedAdmin);
 
-            var rule = new ValidationRuleActionDefault(action, new AuthorizeAttribute());
+            var rule = new ValidationRuleActionInternal(action, new AuthorizeAttribute());
 
             var actualAttribute = rule.CustomAuthorizeAttributesFromController().First();
             actualAttribute.Should().BeEquivalentTo(expectedAttribute);
@@ -406,7 +406,7 @@ namespace LeeWay.Ensure.ControllerAttributes.Tests
 
 
         /// <summary>
-        /// invokes the private method HasRequiredAttribute on ValidationRuleActionDefault
+        /// invokes the private method HasRequiredAttribute on ValidationRuleActionInternal
         /// TODO: probably make HasRequiredAttribute public and make this cleaner.
         /// </summary>
         /// <param name="action"></param>
@@ -416,7 +416,7 @@ namespace LeeWay.Ensure.ControllerAttributes.Tests
         {
             action.Should().NotBeNull("if action was not found, the error is in the setup/arrange, check controllerInfo typeOf");
 
-            var typeOfValidationRule = typeof(ValidationRuleActionDefault);
+            var typeOfValidationRule = typeof(ValidationRuleActionInternal);
             var defaultRuleInstance = Activator.CreateInstance(typeOfValidationRule, action, attributeRequired);
 
             MethodInfo hasRequiredAttribute = typeOfValidationRule

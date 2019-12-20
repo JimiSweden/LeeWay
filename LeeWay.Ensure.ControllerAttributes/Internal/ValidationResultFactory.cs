@@ -16,7 +16,7 @@ namespace LeeWay.Ensure.ControllerAttributes.Internal
         /// Creates a result message with human readable text formatted for console output
         /// </summary>
         /// <param name="actionRule"></param>
-        public static ValidationResult Create(ValidationRuleActionDefault actionRule, bool isValid)
+        public static ValidationResult Create(ValidationRuleActionInternal actionRule, bool isValid)
         {   
             var requiredAttribute = AttributeForDisplay(actionRule.AttributeRequired);
             var requiredAttributeMessage = $"\t required attribute: \t{requiredAttribute}";
@@ -37,7 +37,7 @@ namespace LeeWay.Ensure.ControllerAttributes.Internal
                 message: messageBuilder.ToString());
         }
 
-        private static string ActualAttributesMessage(ValidationRuleActionDefault actionRule)
+        private static string ActualAttributesMessage(ValidationRuleActionInternal actionRule)
         {
             var authorizeAttributesForDisplay = CustomAuthorizeAttributes(actionRule)
                 .Select(AuthorizeAttributeAndPolicyNameForDisplay).ToList();
@@ -82,7 +82,7 @@ namespace LeeWay.Ensure.ControllerAttributes.Internal
             return $"[{attribute.GetType().Name}{policyIfAvailable}]";
         }
 
-        private static IReadOnlyList<AuthorizeAttribute> CustomAuthorizeAttributes(ValidationRuleActionDefault actionRule)
+        private static IReadOnlyList<AuthorizeAttribute> CustomAuthorizeAttributes(ValidationRuleActionInternal actionRule)
         {
             var attributesFromAction = actionRule.CustomAuthorizeAttributesFromAction();
 

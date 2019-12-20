@@ -59,7 +59,9 @@ namespace LeeWay.Ensure.ControllerAttributes.Public
         /// <br/>
         /// You should probably give the full namespace path to match as strict as possible
         /// <br/>
-        /// TODO ? perhaps/probably add multiple paths, nice to have and not much work needed. (will need a test to validate controller in paths are removed)
+        /// TODO: this method should add excludes to a list (strings) and that list and the _validator.ExcludeActionsFromValidation should run on Build
+        /// will make the order of this and rules independent. more fail safe. 
+        /// TODO ? add multiple paths, nice to have and not much work needed. (will need a test to validate controller in paths are removed)
         /// </summary>
         /// <param name="pathContains"></param>
         /// <returns></returns>
@@ -121,8 +123,8 @@ namespace LeeWay.Ensure.ControllerAttributes.Public
         /// <returns></returns>
         public ValidatorBuilder AddControllerRule<T>(Attribute attributeRequired) where T: ControllerBase
         {
-            var validationRuleController = new ControllerRule<T>(attributeRequired);
-            _validator.ValidationRulesConfigured.Add(validationRuleController);
+            var validationRuleController = new ControllerRuleConfiguredByUser<T>(attributeRequired);
+            _validator.ValidationRulesConfiguredByUser.Add(validationRuleController);
             return this;
         }
 
@@ -139,8 +141,8 @@ namespace LeeWay.Ensure.ControllerAttributes.Public
         /// </summary>
         public ValidatorBuilder AddActionRule<T>(string actionName, Attribute attributeRequired) where T : ControllerBase
         {
-            var validationRuleAction = new ActionRule<T>(actionName, attributeRequired);
-            _validator.ValidationRulesConfigured.Add(validationRuleAction);
+            var validationRuleAction = new ActionRuleConfiguredByUser<T>(actionName, attributeRequired);
+            _validator.ValidationRulesConfiguredByUser.Add(validationRuleAction);
             return this;
         }
 
@@ -174,8 +176,8 @@ namespace LeeWay.Ensure.ControllerAttributes.Public
         /// </summary>
         public ValidatorBuilder AddActionRule<T>(string actionName, IEnumerable<MyParameterInfo> parameterInfos, Attribute attributeRequired) where T : ControllerBase
         {
-            var validationRuleUserDefined = new ActionRule<T>(actionName, parameterInfos, attributeRequired);
-            _validator.ValidationRulesConfigured.Add(validationRuleUserDefined);
+            var validationRuleUserDefined = new ActionRuleConfiguredByUser<T>(actionName, parameterInfos, attributeRequired);
+            _validator.ValidationRulesConfiguredByUser.Add(validationRuleUserDefined);
             return this;
         }
        

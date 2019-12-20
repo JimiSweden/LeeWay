@@ -7,14 +7,14 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LeeWay.Ensure.ControllerAttributes.Internal.Rules
 {
-    internal sealed class ActionRule<TController> : ValidationRuleBase<TController> where TController : ControllerBase
+    internal sealed class ActionRuleConfiguredByUser<TController> : ValidationRuleConfiguredByUserBase<TController> where TController : ControllerBase
     {
         /// <summary>
         /// Simple action rule
         /// </summary>
         /// <param name="actionName"></param>
         /// <param name="attributeRequired"></param>
-        public ActionRule(string actionName, Attribute attributeRequired)
+        public ActionRuleConfiguredByUser(string actionName, Attribute attributeRequired)
             : base(GetMethodInfo(actionName), attributeRequired)
         {
         }
@@ -29,7 +29,7 @@ namespace LeeWay.Ensure.ControllerAttributes.Internal.Rules
         /// <param name="actionName"></param>
         /// <param name="parameters"></param>
         /// <param name="attributeRequired"></param>
-        public ActionRule(string actionName, IEnumerable<MyParameterInfo> parameters, Attribute attributeRequired)
+        public ActionRuleConfiguredByUser(string actionName, IEnumerable<MyParameterInfo> parameters, Attribute attributeRequired)
             : base(GetMethodInfo(actionName, parameters), attributeRequired)
         {
         }

@@ -18,16 +18,16 @@ namespace LeeWay.Ensure.ControllerAttributes.Internal
          * Note to self: controller rules and acton rules could be in one, but lets keep like this
          * because the action rules, as they are more specific, must be applied / merged after controller rules
          * */
-        public readonly List<IValidationRule> _configuredControllerRules;
-        public readonly List<IValidationRule> _configuredActionMethodRules;
+        public readonly List<IValidationRuleConfiguredByUser> _configuredControllerRules;
+        public readonly List<IValidationRuleConfiguredByUser> _configuredActionMethodRules;
 
-        private List<IValidationRule> AuthorizationValidationRules = new List<IValidationRule>();
+        private List<IValidationRuleInternal> AuthorizationValidationRules = new List<IValidationRuleInternal>();
 
         /// <summary>
         /// </summary>
         /// <param name="controllerActionsToValidate"></param>
         /// <param name="validationRules"></param>
-        public ValidationRulesContainer(IEnumerable<MethodInfo> controllerActionsToValidate, List<IValidationRule> validationRules)
+        public ValidationRulesContainer(IEnumerable<MethodInfo> controllerActionsToValidate, List<IValidationRuleConfiguredByUser> validationRules)
         {
             if (controllerActionsToValidate == null || !controllerActionsToValidate.Any())
             {
@@ -48,7 +48,7 @@ namespace LeeWay.Ensure.ControllerAttributes.Internal
         /// <summary>
         /// All default and configured rules
         /// </summary>
-        public List<IValidationRule> AllRules()
+        public List<IValidationRuleInternal> AllRules()
         {
             return AuthorizationValidationRules;
         }
@@ -72,7 +72,7 @@ namespace LeeWay.Ensure.ControllerAttributes.Internal
                     
                 AuthorizationValidationRules.Add(
                     //default action rule with default Attribute from builder
-                    new ValidationRuleActionDefault(action, defaultAttribute)
+                    new ValidationRuleActionInternal(action, defaultAttribute)
                 );
             }
         }
@@ -103,37 +103,39 @@ namespace LeeWay.Ensure.ControllerAttributes.Internal
         /// <summary>
         /// Replaces all default actions rules for the controller
         /// </summary>
-        /// <param name="controllerRuleUserDefined"></param>
-        private void ReplaceActionRulesForController(IValidationRule controllerRuleUserDefined)
+        /// <param name="controllerRuleConfiguredByUser"></param>
+        private void ReplaceActionRulesForController(IValidationRuleConfiguredByUser controllerRuleConfiguredByUser)
         {
-            bool MatchControllerName(IValidationRule rule) => rule.ControllerName == controllerRuleUserDefined.ControllerName;
+            
+            bool MatchControllerName(IValidationRuleInternal rule) => rule.ControllerName == controllerRuleConfiguredByUser.ControllerName;
 
-            MergeRules(controllerRuleUserDefined, MatchControllerName);
+            MergeRules(controllerRuleConfiguredByUser, MatchControllerName);
         }
 
-        private void ReplaceActionRule(IValidationRule actionRuleUserDefined)
+        private void ReplaceActionRule(IValidationRuleConfiguredByUser actionRuleUserConfigured)
         {
-            bool MatchControllerAndAction(IValidationRule rule) => 
-                rule.Action.DeclaringType.FullName == actionRuleUserDefined.Action.DeclaringType.FullName 
-                && rule.Action.ToString() == actionRuleUserDefined.Action.ToString();
+            bool MatchControllerAndAction(IValidationRuleInternal rule) => 
+                rule.Action.DeclaringType.FullName == actionRuleUserConfigured.Action.DeclaringType.FullName 
+                && rule.Action.ToString() == actionRuleUserConfigured.Action.ToString();
 
-            MergeRules(actionRuleUserDefined, MatchControllerAndAction);
+            MergeRules(actionRuleUserConfigured, MatchControllerAndAction);
         }
 
         /// <summary>
         /// Replaces the default validation rules with the ones from users configured rules
-        /// (sets the configured Attribute required)
+        /// (and in the case of action rules also replaces rules configured on controller level)
+        /// (sets the Attribute required from configuration in the rules that will finally be validated)
         /// </summary>
-        /// <param name="validationRuleUserDefined"></param>
-        /// <param name="matchRule"></param>
-        private void MergeRules(IValidationRule validationRuleUserDefined, Func<IValidationRule, bool> matchActionAndOrController)
+        /// <param name="validationRuleConfiguredByUser"></param>
+        /// <param name="matchActionAndOrController"></param>
+        private void MergeRules(IValidationRuleConfiguredByUser validationRuleConfiguredByUser, Func<IValidationRuleInternal, bool> matchActionAndOrController)
         {
             var rulesToReplace = AuthorizationValidationRules.Where(matchActionAndOrController).ToList();
 
             var newRules = rulesToReplace.Select(oldRule =>
-                new ValidationRuleActionDefault(
+                new ValidationRuleActionInternal(
                     oldRule.Action, 
-                    validationRuleUserDefined.AttributeRequired
+                    validationRuleConfiguredByUser.AttributeRequired
                 ));
 
             rulesToReplace.ForEach(rule => AuthorizationValidationRules.Remove(rule));

@@ -32,7 +32,7 @@ namespace LeeWay.Ensure.ControllerAttributes.Tests
             Action containerAction = () => 
                 new ValidationRulesContainer(
                     controllerActionsToValidate:_defaultActionsFromAssemblyToValidate,
-                    validationRules: new List<IValidationRule>()
+                    validationRules: new List<IValidationRuleConfiguredByUser>()
                     );
 
             containerAction
@@ -48,7 +48,7 @@ namespace LeeWay.Ensure.ControllerAttributes.Tests
             Action containerAction = () =>
                 new ValidationRulesContainer(
                     controllerActionsToValidate: new List<MethodInfo>(), 
-                    validationRules: new List<IValidationRule> { Helper.ActionRule_withNoAttribute_Controller_hasAllowAnnonymous() }
+                    validationRules: new List<IValidationRuleConfiguredByUser> { Helper.ActionRule_withNoAttribute_Controller_hasAllowAnnonymous() }
                 );
 
             containerAction
@@ -63,10 +63,10 @@ namespace LeeWay.Ensure.ControllerAttributes.Tests
         {
             var controllerRule = Helper.ControllerRule_with_policy_RequireAdmin();
             var actionRule = Helper.ActionRule_withNoAttribute_Controller_hasAllowAnnonymous();
-            var expectedActionRules = new List<IValidationRule> { actionRule };
-            var expectedControllerRules = new List<IValidationRule> { controllerRule };
+            var expectedActionRules = new List<IValidationRuleConfiguredByUser> { actionRule };
+            var expectedControllerRules = new List<IValidationRuleConfiguredByUser> { controllerRule };
 
-            var validationRules = new List<IValidationRule>
+            var validationRules = new List<IValidationRuleConfiguredByUser>
             {
                 controllerRule, actionRule
             };
@@ -100,7 +100,7 @@ namespace LeeWay.Ensure.ControllerAttributes.Tests
             var controllerRule = Helper.ControllerRule_with_policy_RequireAdmin();
             var actionRule = Helper.ActionRule_withNoAttribute_Controller_hasAllowAnnonymous();
 
-            var validationRules = new List<IValidationRule>
+            var validationRules = new List<IValidationRuleConfiguredByUser>
             {
                 controllerRule, actionRule
             };
@@ -109,11 +109,11 @@ namespace LeeWay.Ensure.ControllerAttributes.Tests
             var expectedActionRulesFromController = ControllerInfo
                     //note: could not get type directly from controllerRule in an easy way, that is why it looks like this for now. 
                 .Actions(typeof(FakeControllers.Controller_with_Policy_RequireAdmin))
-                .Select(action => new ValidationRuleActionDefault(action, controllerRule.AttributeRequired));
+                .Select(action => new ValidationRuleActionInternal(action, controllerRule.AttributeRequired));
 
-            var expectedRules = new List<ValidationRuleActionDefault>
+            var expectedRules = new List<ValidationRuleActionInternal>
             {
-                new ValidationRuleActionDefault(actionRule.Action, actionRule.AttributeRequired)
+                new ValidationRuleActionInternal(actionRule.Action, actionRule.AttributeRequired)
             };
             expectedRules.AddRange(expectedActionRulesFromController);
 

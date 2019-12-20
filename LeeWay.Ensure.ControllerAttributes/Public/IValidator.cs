@@ -16,7 +16,7 @@ namespace LeeWay.Ensure.ControllerAttributes.Public
         /// <summary>
         /// Rules created by the user 
         /// </summary>
-        List<IValidationRule> ValidationRulesConfigured { get; set; }
+        List<IValidationRuleConfiguredByUser> ValidationRulesConfiguredByUser { get; set; }
 
         Attribute DefaultAuthorizeAttribute { get; set; }
 

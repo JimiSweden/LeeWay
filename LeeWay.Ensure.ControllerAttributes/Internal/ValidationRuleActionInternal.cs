@@ -18,7 +18,7 @@ namespace LeeWay.Ensure.ControllerAttributes.Internal
     /// The action rules are the only rule types validated,
     /// configured controller rules will result in action rules for all of its actions.
     /// </summary>
-    internal sealed class ValidationRuleActionDefault : ValueObject, IValidationRule
+    internal sealed class ValidationRuleActionInternal : ValueObject, IValidationRuleInternal
     {
         /// <summary>
         /// Controller action and the required attribute
@@ -29,7 +29,7 @@ namespace LeeWay.Ensure.ControllerAttributes.Internal
         /// </summary>
         /// <param name="action"></param>
         /// <param name="attributeRequired"></param>
-        public ValidationRuleActionDefault(MethodInfo action, Attribute attributeRequired)
+        public ValidationRuleActionInternal(MethodInfo action, Attribute attributeRequired)
         {
             //todo ? : add validation of Attribute type to constraint only supported
             Action = action ?? throw new ArgumentNullException(nameof(action), "action can not be null");
@@ -43,10 +43,6 @@ namespace LeeWay.Ensure.ControllerAttributes.Internal
         public MethodInfo Action { get; }
 
         public ValidationResult ValidationResult { get; set; }
-
-        //TODO: remove later >> temporary props below when refactoring to generics, to comply with the old ValidationRuleUserDefined
-        [Obsolete("only used in interface and controller rule")]
-        public bool IsControllerLevel { get; set; }
 
         /// <summary>
         /// todo (perhaps): make the Validate functions into classes/handlers that can listen to this.
@@ -106,15 +102,15 @@ namespace LeeWay.Ensure.ControllerAttributes.Internal
 
         public IReadOnlyList<AuthorizeAttribute> CustomAuthorizeAttributesFromAction()
         {
-            return CustomAuthorizeAttributesFromMethodInfo(Action);
+            return CustomAuthorizeAttributesFromMemberInfo(Action);
         }
         
         public IReadOnlyList<AuthorizeAttribute> CustomAuthorizeAttributesFromController()
         {
-            return CustomAuthorizeAttributesFromMethodInfo(Action.DeclaringType);
+            return CustomAuthorizeAttributesFromMemberInfo(Action.DeclaringType);
         }
 
-        private IReadOnlyList<AuthorizeAttribute> CustomAuthorizeAttributesFromMethodInfo(MemberInfo memberInfo)
+        private IReadOnlyList<AuthorizeAttribute> CustomAuthorizeAttributesFromMemberInfo(MemberInfo memberInfo)
         {
             // <param name="inherit">true to search this member's inheritance chain to find the attributes; otherwise, false.
             var authorizeAttributes = memberInfo
